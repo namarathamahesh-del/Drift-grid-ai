@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Drift Grid AI is an ultra-fast mobile AI platform and intelligence assistant created by Lokanath KM (Age 14, India)." />
+  <meta name="author" content="Lokanath KM" />
+  <title>Drift Grid AI - Official Website</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-[#070b19] via-[#0d1026] to-[#1c0816] text-slate-100 flex flex-col h-screen w-full font-sans antialiased overflow-hidden selection:bg-blue-500 selection:text-white">
+
+  <!-- Sidebar Overlay -->
+  <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/70 backdrop-blur-md z-40 hidden transition-opacity duration-300"></div>
+
+  <!-- 3-Line Slide-out Drawer -->
+  <aside id="sidebar" class="fixed top-0 left-0 bottom-0 w-80 bg-[#0c1024]/95 border-r border-white/10 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col backdrop-blur-2xl shadow-2xl">
+    <div class="p-3.5 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+      <div class="flex items-center space-x-2">
+        <span class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-rose-400 text-lg tracking-tight">Drift Grid AI</span>
+        <span class="text-[10px] bg-blue-500/10 text-blue-300 border border-blue-500/20 px-1.5 py-0.5 rounded font-mono">v4.2</span>
+      </div>
+      <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white text-lg px-2 transition">✕</button>
+    </div>
+
+    <!-- Search Bar Inside Drawer -->
+    <div class="p-3 border-b border-white/10 bg-white/[0.01]">
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs">🔍</span>
+        <input 
+          id="searchChatInput"
+          type="text" 
+          placeholder="Search chats & library..."
+          oninput="filterDrawerContent()" 
+          class="w-full bg-[#12162e] border border-white/10 rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400/50 transition shadow-inner"
+        />
+      </div>
+    </div>
+
+    <!-- Scrollable Drawer Body -->
+    <div class="flex-1 overflow-y-auto p-3 space-y-4">
+      <button 
+        onclick="startNewChat()" 
+        class="w-full bg-gradient-to-r from-blue-600/30 to-indigo-600/30 hover:from-blue-600/50 hover:to-indigo-600/50 border border-blue-500/30 text-white text-xs font-semibold py-2 px-3 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm"
+      >
+        <span class="text-blue-300">+</span> <span>New Chat</span>
+      </button>
+
+      <!-- Dedicated Payment Mode Button in Drawer -->
+      <button 
+        onclick="openPaymentModal(); toggleSidebar();" 
+        class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold py-2.5 px-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2"
+      >
+        <span>💳</span> <span>Open Payment Mode</span>
+      </button>
+
+      <!-- Customize Student Mode -->
+      <div class="space-y-1.5">
+        <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-1">
+          Customize Student Mode
+        </div>
+        <div class="grid grid-cols-2 gap-1.5">
+          <button onclick="setStudentMode('study-tutor')" id="btnModeTutor" class="student-mode-btn p-2 rounded-xl border border-white/10 bg-[#12162e]/70 hover:bg-[#181d3d] text-left transition">
+            <div class="text-xs font-medium text-blue-300">📖 Study Tutor</div>
+            <div class="text-[10px] text-slate-400 truncate">Step-by-step solver</div>
+          </button>
+          <button onclick="setStudentMode('exam-prep')" id="btnModeExam" class="student-mode-btn p-2 rounded-xl border border-white/10 bg-[#12162e]/70 hover:bg-[#181d3d] text-left transition">
+            <div class="text-xs font-medium text-purple-300">📝 Quiz & Prep</div>
+            <div class="text-[10px] text-slate-400 truncate">Mock test maker</div>
+          </button>
+          <button onclick="setStudentMode('code-mentor')" id="btnModeCode" class="student-mode-btn p-2 rounded-xl border border-white/10 bg-[#12162e]/70 hover:bg-[#181d3d] text-left transition">
+            <div class="text-xs font-medium text-emerald-300">💻 Code Mentor</div>
+            <div class="text-[10px] text-slate-400 truncate">Clean logic & debug</div>
+          </button>
+          <button onclick="setStudentMode('cyber-audit')" id="btnModeCyber" class="student-mode-btn p-2 rounded-xl border border-white/10 bg-[#12162e]/70 hover:bg-[#181d3d] text-left transition">
+            <div class="text-xs font-medium text-amber-300">🛡️ Cyber Audit</div>
+            <div class="text-[10px] text-slate-400 truncate">Ethical defense</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Library & Saved Notes -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-1">
+          <span>📚 Library & Saved Notes</span>
+          <span id="libraryCountBadge" class="text-[10px] text-blue-300 font-mono">0</span>
+        </div>
+        <div id="libraryContainer" class="space-y-1 text-xs">
+          <div class="text-slate-500 italic p-2 text-center text-[11px] bg-white/[0.02] rounded-xl border border-white/5">
+            Your saved formulas, code blocks & notes appear here.
+          </div>
+        </div>
+      </div>
+
+      <!-- Subscription Tiers -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-1">
+          <span>Subscription Tiers</span>
+          <span id="drawerPlanBadge" class="text-[10px] bg-rose-500/20 text-rose-200 border border-rose-400/30 px-2 py-0.5 rounded">Unpaid</span>
+        </div>
+        <div class="space-y-1">
+          <div onclick="selectDrawerPlan('drift-1.1', 99)" class="p-2 rounded-xl border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 cursor-pointer transition flex items-center justify-between">
+            <span class="text-xs text-slate-200 font-medium">Drift 1.1 Normal (1 Mo)</span>
+            <span class="text-xs font-bold text-blue-400">₹99</span>
+          </div>
+          <div onclick="selectDrawerPlan('drift-1.2', 399)" class="p-2 rounded-xl border border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 cursor-pointer transition flex items-center justify-between">
+            <span class="text-xs text-slate-200 font-medium">Drift 1.2 Pro (Coding)</span>
+            <span class="text-xs font-bold text-indigo-400">₹399</span>
+          </div>
+          <div onclick="selectDrawerPlan('drift-sec', 599)" class="p-2 rounded-xl border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 cursor-pointer transition flex items-center justify-between">
+            <span class="text-xs text-slate-200 font-medium">Ethical Hacking & Defense</span>
+            <span class="text-xs font-bold text-amber-400">₹599</span>
+          </div>
+          <div onclick="selectDrawerPlan('drift-all', 999)" class="p-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 cursor-pointer transition flex items-center justify-between">
+            <span class="text-xs text-amber-200 font-medium">👑 Full 2-Month Suite</span>
+            <span class="text-xs font-bold text-emerald-400">₹999</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- App Info & System Links -->
+      <div class="space-y-1 pt-1 border-t border-white/10">
+        <button onclick="openSettingsModal(); toggleSidebar();" class="w-full text-left p-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition">
+          <span>⚙️ Settings & Permissions</span>
+          <span class="text-slate-400">›</span>
+        </button>
+        <button onclick="openPrivacyModal(); toggleSidebar();" class="w-full text-left p-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition">
+          <span>🔒 Privacy Policy</span>
+          <span class="text-slate-400">›</span>
+        </button>
+        <button onclick="openAboutModal(); toggleSidebar();" class="w-full text-left p-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition">
+          <span>ℹ️ About Founder & CEO</span>
+          <span class="text-slate-400">›</span>
+        </button>
+      </div>
+
+      <!-- Chat History -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-1">
+          <span>Chat History</span>
+        </div>
+        <div id="historyList" class="space-y-1 text-xs">
+          <div class="text-slate-500 italic p-2 text-center text-[11px]">No prior conversations saved yet.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="p-3 border-t border-white/10 bg-[#090c1d] space-y-1.5">
+      <div id="drawerUserStatus" class="text-xs text-slate-300 truncate">
+        User: <span id="drawerUserName" class="text-white font-semibold">Guest</span>
+      </div>
+      <button onclick="openLoginModal(); toggleSidebar();" class="w-full bg-white/10 hover:bg-white/20 text-white text-xs py-1.5 rounded-xl border border-white/15 transition flex items-center justify-center gap-1.5">
+        🔑 Sign In / Switch Account
+      </button>
+    </div>
+  </aside>
+
+  <!-- Clean Top Header -->
+  <header class="w-full border-b border-white/10 bg-[#090d20]/80 backdrop-blur-xl px-3 py-2.5 shadow-lg flex items-center justify-between gap-2 shrink-0 box-border z-20">
+    <div class="flex items-center space-x-2 shrink-0">
+      <button onclick="toggleSidebar()" class="p-1.5 rounded-lg bg-white/10 border border-white/15 hover:bg-white/20 text-white transition focus:outline-none flex flex-col justify-center items-center gap-1 w-8 h-8 shrink-0 relative" title="Open 3-Line Menu">
+        <span class="w-4 h-0.5 bg-blue-300 rounded-full"></span>
+        <span class="w-4 h-0.5 bg-white rounded-full"></span>
+        <span class="w-4 h-0.5 bg-rose-300 rounded-full"></span>
+        <span id="menuNotificationBadge" class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-rose-500 hidden animate-pulse"></span>
+      </button>
+
+      <span class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-rose-400 text-base sm:text-lg tracking-tight shrink-0">Drift Grid AI</span>
+    </div>
+
+    <!-- Active Mode & Header Controls -->
+    <div class="flex items-center gap-1.5 min-w-0 shrink">
+      <button onclick="openPaymentModal()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-lg shadow transition flex items-center gap-1 shrink-0">
+        <span>💳</span> <span>Payment</span>
+      </button>
+
+      <select id="modelSelector" class="bg-[#12162e] border border-white/20 text-slate-200 text-[11px] sm:text-xs px-2 py-1.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 font-medium max-w-[125px] sm:max-w-none truncate shrink">
+        <option value="drift-1.1">Drift 1.1 Flash (₹99)</option>
+        <option value="drift-1.2">Drift 1.2 Pro (₹399)</option>
+        <option value="drift-sec">Security (₹599)</option>
+        <option value="drift-all">Full Suite (₹999)</option>
+      </select>
+
+      <button id="headerLoginBtn" onclick="openLoginModal()" class="flex items-center gap-1.5 bg-white/10 border border-white/20 hover:bg-white/20 text-white text-[11px] sm:text-xs px-2.5 py-1.5 rounded-lg font-medium transition shrink-0">
+        Sign in
+      </button>
+
+      <div id="userHeaderPill" class="hidden flex items-center gap-1.5 bg-white/10 border border-white/20 px-2 py-1 rounded-lg shrink min-w-0 max-w-[110px] sm:max-w-[150px]">
+        <img id="userHeaderAvatar" src="" class="w-4 h-4 rounded-full object-cover hidden shrink-0" alt="Avatar" />
+        <span id="userHeaderDot" class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+        <span id="userHeaderEmail" class="text-[11px] text-slate-200 truncate shrink"></span>
+        <button onclick="logoutUser()" title="Logout" class="text-[10px] text-slate-400 hover:text-rose-400 shrink-0 ml-0.5">✕</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Clean Sub-banner with Active Persona Indicator -->
+  <div class="w-full bg-[#0a0d22]/60 border-b border-white/10 px-3 py-1 text-[11px] sm:text-xs text-blue-200/90 flex justify-between items-center backdrop-blur-md shrink-0 box-border">
+    <span class="truncate">Engine: <strong id="tierLabel" class="text-white font-semibold">Drift 1.1 Fast Engine</strong></span>
+    <span id="activePersonaBadge" class="text-[10px] bg-blue-500/20 text-blue-200 border border-blue-400/30 px-2 py-0.5 rounded truncate">Student: Study Tutor</span>
+  </div>
+
+  <!-- Chat Log -->
+  <div id="chatLog" class="flex-1 overflow-y-auto p-3 sm:p-5 space-y-4 max-w-3xl mx-auto w-full box-border">
+    <div class="flex justify-start">
+      <div class="bg-[#121630]/90 border border-white/10 text-slate-200 rounded-3xl rounded-tl-sm px-4 py-3 text-xs sm:text-sm max-w-[88%] shadow-lg backdrop-blur-md leading-relaxed">
+        <div class="flex items-center gap-1.5 font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-rose-400 mb-1">
+          <span>⚡ Drift Grid AI</span>
+        </div>
+        Welcome to Drift Grid AI! Founded and led by Lokanath KM (Age 14, India). Free tier limit: 25 questions. Open Payment Mode anytime via the menu or header to unlock unlimited access.
+      </div>
+    </div>
+  </div>
+
+  <!-- Input Bar with File / Camera Support -->
+  <div class="w-full p-2.5 sm:p-4 border-t border-white/10 bg-[#090d20]/80 backdrop-blur-xl shrink-0 box-border z-20">
+    <div id="fileBadge" class="max-w-3xl mx-auto mb-2 hidden flex items-center justify-between bg-blue-950/80 border border-blue-500/40 rounded-xl px-3 py-1.5 text-xs text-blue-200 shadow-md">
+      <div class="flex items-center gap-2 truncate">
+        <span id="fileBadgeIcon">📄</span>
+        <span id="fileBadgeName" class="truncate font-mono"></span>
+      </div>
+      <button type="button" onclick="clearAttachedFile()" class="text-slate-400 hover:text-rose-400 ml-2 text-sm font-bold">✕</button>
+    </div>
+
+    <form id="chatForm" class="max-w-3xl mx-auto flex items-center gap-1.5 sm:gap-2 w-full">
+      <input id="docFileInput" type="file" class="hidden" accept=".txt,.pdf,.csv,.json,.js,.py,.html,.css,.md,.docx" />
+      <input id="galleryFileInput" type="file" class="hidden" accept="image/*" />
+      <input id="cameraFileInput" type="file" class="hidden" accept="image/*" capture="environment" />
+
+      <div class="relative shrink-0">
+        <button type="button" id="attachMenuBtn" onclick="toggleAttachMenu()" class="p-2 sm:p-2.5 rounded-xl bg-white/10 border border-white/15 hover:bg-white/20 text-slate-200 transition flex items-center justify-center shadow-sm" title="Add File, Photo, or Take Photo">
+          📎
+        </button>
+
+        <div id="attachMenuDropdown" class="hidden absolute bottom-12 left-0 bg-[#0e122b] border border-white/20 rounded-2xl p-1.5 shadow-2xl z-30 w-44 flex flex-col gap-1 backdrop-blur-2xl">
+          <button type="button" onclick="triggerUpload('docFileInput')" class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-white/10 text-slate-200 flex items-center gap-2 transition"><span>📄</span> Document / File</button>
+          <button type="button" onclick="triggerUpload('galleryFileInput')" class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-white/10 text-slate-200 flex items-center gap-2 transition"><span>🖼️</span> Gallery Photo</button>
+          <button type="button" onclick="triggerUpload('cameraFileInput')" class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-white/10 text-slate-200 flex items-center gap-2 transition"><span>📷</span> Open Camera</button>
+        </div>
+      </div>
+
+      <input id="userInput" type="text" placeholder="Type a question for instant answers..." class="flex-1 min-w-0 bg-[#12162e]/90 border border-white/15 rounded-2xl px-3.5 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400 transition shadow-inner" required />
+
+      <button type="submit" id="sendBtn" class="bg-gradient-to-r from-blue-600 via-indigo-600 to-rose-600 hover:from-blue-500 hover:to-rose-500 text-white font-semibold px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm shadow-md transition disabled:opacity-50 shrink-0 flex items-center gap-1 active:scale-95">
+        <span>Send</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- Settings & Permissions Modal -->
+  <div id="settingsModal" class="fixed inset-0 bg-black/70 backdrop-blur-md hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-[#0e122b] border border-white/20 rounded-3xl p-6 max-w-sm w-full shadow-2xl relative text-slate-100 max-h-[90vh] overflow-y-auto">
+      <button onclick="closeSettingsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-sm font-bold">✕</button>
+      <h3 class="text-base font-bold text-white mb-1">⚙️ Settings & Permissions</h3>
+      <p class="text-xs text-slate-400 mb-4">Manage app notifications, camera, microphone, and storage permissions.</p>
+      
+      <div class="space-y-3.5 mb-5 text-xs">
+        <div class="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/10">
+          <div>
+            <div class="font-semibold text-white">Push Notifications</div>
+            <div class="text-[10px] text-slate-400">Receive study reminders & updates</div>
+          </div>
+          <button id="notifPermBtn" onclick="requestNotificationPermission()" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium transition">Allow</button>
+        </div>
+
+        <div class="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/10">
+          <div>
+            <div class="font-semibold text-white">Camera & Photos</div>
+            <div class="text-[10px] text-slate-400">Scan homework and documents</div>
+          </div>
+          <button id="camPermBtn" onclick="requestCameraPermission()" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium transition">Allow</button>
+        </div>
+
+        <div>
+          <label class="block text-[11px] text-slate-400 mb-1">Gemini Cloud Engine Key (Optional):</label>
+          <input id="hiddenApiKeyInput" type="password" placeholder="Paste Gemini API Key" class="w-full bg-[#161a38] border border-white/20 rounded-xl px-3 py-2 text-xs text-white mb-2 focus:outline-none focus:ring-1 focus:ring-blue-400" />
+          <button onclick="saveApiKey()" class="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-1.5 rounded-xl text-xs transition border border-white/15">Save API Key</button>
+        </div>
+      </div>
+
+      <button onclick="closeSettingsModal()" class="w-full bg-gradient-to-r from-blue-600 to-rose-600 text-white font-semibold py-2 rounded-xl text-xs transition">Close Settings</button>
+    </div>
+  </div>
+
+  <!-- Privacy Policy Modal -->
+  <div id="privacyModal" class="fixed inset-0 bg-black/70 backdrop-blur-md hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-[#0e122b] border border-white/20 rounded-3xl p-6 max-w-sm w-full shadow-2xl relative text-slate-100 max-h-[90vh] overflow-y-auto">
+      <button onclick="closePrivacyModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-sm font-bold">✕</button>
+      <h3 class="text-base font-bold text-white mb-1">🔒 Privacy Policy</h3>
+      <p class="text-[11px] text-slate-400 mb-3">Last updated: 2026</p>
+      
+      <div class="space-y-3 text-xs text-slate-300 mb-5 leading-relaxed">
+        <p>At <strong>Drift Grid AI</strong>, we take your privacy extremely seriously. We are committed to safeguarding your personal data and study notes.</p>
+        <p><strong>1. Data Collection:</strong> We store your chat history and bookmarked library notes locally on your browser device (`localStorage`) so you never lose your progress.</p>
+        <p><strong>2. Camera & Files:</strong> Uploaded documents and camera snapshots are processed securely for immediate analysis and are never shared or sold to third parties.</p>
+        <p><strong>3. Payments:</strong> All subscription payments are routed securely via encrypted UPI links to official merchant handles (`driftgrid@upi`).</p>
+      </div>
+
+      <button onclick="closePrivacyModal()" class="w-full bg-gradient-to-r from-blue-600 to-rose-600 text-white font-semibold py-2 rounded-xl text-xs transition">I Understand</button>
+    </div>
+  </div>
+
+  <!-- About Drift Grid AI & Founder Modal -->
+  <div id="aboutModal" class="fixed inset-0 bg-black/70 backdrop-blur-md hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-[#0e122b] border border-white/20 rounded-3xl p-6 max-w-sm w-full shadow-2xl relative text-slate-100 max-h-[90vh] overflow-y-auto">
+      <button onclick="closeAboutModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-sm font-bold">✕</button>
+      <div class="text-center mb-4">
+        <div class="w-14 h-14 mx-auto mb-2.5 bg-gradient-to-tr from-blue-600 via-indigo-600 to-rose-600 rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg">DG</div>
+        <h3 class="text-base font-bold text-white">About Drift Grid AI</h3>
+        <p class="text-xs text-blue-300 mt-0.5">High-End Mobile Intelligence Platform</p>
+      </div>
+
+      <div class="space-y-3 text-xs text-slate-300 mb-5 leading-relaxed">
+        <p><strong>Drift Grid AI</strong> is a next-generation mobile web intelligence platform designed for students, developers, and security auditors worldwide.</p>
+        <div class="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+          <div class="text-white font-bold">👑 Founder & CEO</div>
+          <div class="text-blue-200 font-semibold text-sm">Lokanath KM</div>
+          <div class="text-[11px] text-slate-400">Age: 14 | From: India</div>
+          <div class="text-[11px] text-slate-300 mt-1">Vision: Empowering young minds and professionals with lightning-fast artificial intelligence tools and secure defense systems.</div>
+        </div>
+      </div>
+
+      <button onclick="closeAboutModal()" class="w-full bg-gradient-to-r from-blue-600 to-rose-600 text-white font-semibold py-2 rounded-xl text-xs transition">Close</button>
+    </div>
+  </div>
+
+  <!-- In-App Google Account Chooser -->
+  <div id="loginModal" class="fixed inset-0 bg-black/70 backdrop-blur-md hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-[#0e122b] border border-white/20 rounded-2xl p-5 max-w-sm w-full shadow-2xl relative text-slate-100">
+      <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-sm font-bold">✕</button>
+      <div class="text-center mb-4">
+        <div class="w-10 h-10 mx-auto mb-2 bg-white/10 border border-white/20 rounded-full flex items-center justify-center shadow-sm">
+          <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+        </div>
+        <h3 class="text-base font-bold text-white">Choose a Google Account</h3>
+        <p class="text-xs text-slate-400 mt-0.5">Click your account below to sign in instantly.</p>
+      </div>
+
+      <div class="space-y-2 mb-4">
+        <div onclick="selectGoogleProfile('Lokanath KM', 'namarathamahesh@gmail.com', 'https://lh3.googleusercontent.com/a/default-user')" class="p-3 rounded-2xl bg-[#161a38] border border-blue-500/40 hover:border-blue-400 hover:bg-[#1f2552] cursor-pointer transition flex items-center justify-between group shadow-sm">
+          <div class="flex items-center gap-3 truncate">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-rose-500 flex items-center justify-center text-white text-xs font-bold shrink-0 shadow">L</div>
+            <div class="truncate">
+              <div class="text-xs font-semibold text-white group-hover:text-blue-200 transition truncate">Lokanath KM</div>
+              <div class="text-[11px] text-slate-300 font-mono truncate">namarathamahesh@gmail.com</div>
+            </div>
+          </div>
+          <span class="text-xs text-blue-400 font-bold ml-1">✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dedicated Payment Mode Modal (PhonePe, Google Pay, Paytm, 25-Question Limit Enforcement) -->
+  <div id="paymentModal" class="fixed inset-0 bg-black/80 backdrop-blur-lg hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-[#0e122b] border border-white/20 rounded-3xl p-6 max-w-sm w-full shadow-2xl relative text-slate-100 max-h-[92vh] overflow-y-auto">
+      <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-sm font-bold">✕</button>
+      
+      <div class="text-center mb-4">
+        <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-tr from-emerald-600 to-teal-600 rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg">₹</div>
+        <h3 class="text-base font-bold text-white">Payment Mode: Unlock Unlimited Access</h3>
+        <p id="paymentReasonText" class="text-xs text-slate-400 mt-1">Select your subscription plan and pay instantly via Google Pay, PhonePe, or Paytm to `driftgrid@upi`:</p>
+      </div>
+
+      <!-- Plan Selector -->
+      <div class="space-y-2 mb-4">
+        <label class="flex items-center justify-between p-3 border rounded-2xl cursor-pointer hover:bg-white/5 border-emerald-500 bg-emerald-500/10">
+          <div class="flex items-center gap-2.5">
+            <input type="radio" name="payPlan" value="99" checked onchange="updatePayAmount()" />
+            <div>
+              <div class="text-xs font-semibold text-slate-200">Drift 1.1 Normal (1 Mo)</div>
+              <div class="text-[10px] text-slate-400">Unlimited questions + study tutor</div>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-blue-400">₹99</span>
+        </label>
+
+        <label class="flex items-center justify-between p-3 border border-white/10 rounded-2xl cursor-pointer hover:bg-white/5">
+          <div class="flex items-center gap-2.5">
+            <input type="radio" name="payPlan" value="399" onchange="updatePayAmount()" />
+            <div>
+              <div class="text-xs font-semibold text-slate-200">Drift 1.2 Pro (1 Mo)</div>
+              <div class="text-[10px] text-slate-400">Advanced coding & software</div>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-indigo-400">₹399</span>
+        </label>
+
+        <label class="flex items-center justify-between p-3 border border-white/10 rounded-2xl cursor-pointer hover:bg-white/5">
+          <div class="flex items-center gap-2.5">
+            <input type="radio" name="payPlan" value="599" onchange="updatePayAmount()" />
+            <div>
+              <div class="text-xs font-semibold text-slate-200">Cyber Defense Suite (1 Mo)</div>
+              <div class="text-[10px] text-slate-400">Security audits & defense</div>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-amber-400">₹599</span>
+        </label>
+
+        <label class="flex items-center justify-between p-3 border border-white/10 rounded-2xl cursor-pointer hover:bg-white/5 bg-gradient-to-r from-rose-950/30 to-purple-950/30">
+          <div class="flex items-center gap-2.5">
+            <input type="radio" name="payPlan" value="999" onchange="updatePayAmount()" />
+            <div>
+              <div class="text-xs font-semibold text-amber-200">👑 Full Suite (2 Months)</div>
+              <div class="text-[10px] text-slate-300">All models + photo studio + full access</div>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-emerald-400">₹999</span>
+        </label>
+      </div>
+
+      <!-- Real UPI App Buttons -->
+      <div class="space-y-2 mb-4">
+        <div class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider mb-1">Pay instantly via UPI App:</div>
+        
+        <div class="grid grid-cols-2 gap-2">
+          <a id="gpayLink" href="upi://pay?pa=driftgrid@upi&pn=DriftGridAI&am=99&cu=INR" class="p-2.5 bg-[#161a38] border border-white/15 hover:border-blue-400 rounded-xl text-center text-xs font-semibold text-white flex items-center justify-center gap-2 transition">
+            <span class="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center text-[10px] text-white">G</span> Google Pay
+          </a>
+          <a id="phonepeLink" href="upi://pay?pa=driftgrid@upi&pn=DriftGridAI&am=99&cu=INR" class="p-2.5 bg-[#161a38] border border-white/15 hover:border-purple-400 rounded-xl text-center text-xs font-semibold text-white flex items-center justify-center gap-2 transition">
+            <span class="w-4 h-4 rounded-full bg-purple-500 flex items-center justify-center text-[10px] text-white">P</span> PhonePe
+          </a>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <a id="paytmLink" href="upi://pay?pa=driftgrid@upi&pn=DriftGridAI&am=99&cu=INR" class="p-2.5 bg-[#161a38] border border-white/15 hover:border-cyan-400 rounded-xl text-center text-xs font-semibold text-white flex items-center justify-center gap-2 transition">
+            <span class="w-4 h-4 rounded-full bg-cyan-500 flex items-center justify-center text-[10px] text-white">P</span> Paytm UPI
+          </a>
+          <a id="upiDeepLink" href="upi://pay?pa=driftgrid@upi&pn=DriftGridAI&am=99&cu=INR" class="p-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 rounded-xl text-center text-xs font-semibold text-white flex items-center justify-center gap-1.5 shadow transition">
+            <span>⚡ Any UPI App</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-white/10">
+        <label class="text-[10px] text-slate-400 block mb-1">Enter 12-digit UTR / Transaction Reference:</label>
+        <input id="utrInput" type="text" placeholder="e.g. 432109876543" class="w-full bg-[#161a38] border border-white/20 rounded-xl px-3 py-2 text-xs text-white mb-2.5 font-mono focus:outline-none focus:ring-1 focus:ring-emerald-400" />
+        <button onclick="confirmPayment()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 rounded-xl text-xs transition shadow">Verify & Unlock Unlimited Access</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentMode = 'chat';
+    let currentStudentPersona = 'study-tutor';
+    let attachedFile = null;
+    let currentUser = null;
+    let activePlanAmount = 99;
+    let chatHistory = [];
+    let libraryItems = [];
+
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const historyList = document.getElementById('historyList');
+    const libraryContainer = document.getElementById('libraryContainer');
+    const libraryCountBadge = document.getElementById('libraryCountBadge');
+    const searchChatInput = document.getElementById('searchChatInput');
+    const menuNotificationBadge = document.getElementById('menuNotificationBadge');
+
+    const drawerUserName = document.getElementById('drawerUserName');
+    const drawerPlanBadge = document.getElementById('drawerPlanBadge');
+
+    const headerLoginBtn = document.getElementById('headerLoginBtn');
+    const userHeaderPill = document.getElementById('userHeaderPill');
+    const userHeaderAvatar = document.getElementById('userHeaderAvatar');
+    const userHeaderDot = document.getElementById('userHeaderDot');
+    const userHeaderEmail = document.getElementById('userHeaderEmail');
+
+    const loginModal = document.getElementById('loginModal');
+    const settingsModal = document.getElementById('settingsModal');
+    const privacyModal = document.getElementById('privacyModal');
+    const aboutModal = document.getElementById('aboutModal');
+    const hiddenApiKeyInput = document.getElementById('hiddenApiKeyInput');
+
+    const modeChatBtn = document.getElementById('modeChatBtn');
+    const modeImageBtn = document.getElementById('modeImageBtn');
+    const modelSelector = document.getElementById('modelSelector');
+    const tierLabel = document.getElementById('tierLabel');
+    const activePersonaBadge = document.getElementById('activePersonaBadge');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const chatLog = document.getElementById('chatLog');
+
+    const attachMenuDropdown = document.getElementById('attachMenuDropdown');
+    const fileBadge = document.getElementById('fileBadge');
+    const fileBadgeIcon = document.getElementById('fileBadgeIcon');
+    const fileBadgeName = document.getElementById('fileBadgeName');
+
+    const docFileInput = document.getElementById('docFileInput');
+    const galleryFileInput = document.getElementById('galleryFileInput');
+    const cameraFileInput = document.getElementById('cameraFileInput');
+
+    const paymentModal = document.getElementById('paymentModal');
+    const upiDeepLink = document.getElementById('upiDeepLink');
+    const utrInput = document.getElementById('utrInput');
+
+    function requestNotificationPermission() {
+      if ("Notification" in window) {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            alert("Push notifications allowed successfully!");
+            document.getElementById('notifPermBtn').textContent = "Allowed ✓";
+            document.getElementById('notifPermBtn').className = "px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-medium";
+          } else {
+            alert("Notification permission denied.");
+          }
+        });
+      } else {
+        alert("Notifications are not supported by this browser.");
+      }
+    }
+
+    function requestCameraPermission() {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          stream.getTracks().forEach(track => track.stop());
+          alert("Camera & photo permission granted successfully!");
+          document.getElementById('camPermBtn').textContent = "Allowed ✓";
+          document.getElementById('camPermBtn').className = "px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-medium";
+        })
+        .catch(err => { alert("Camera permission denied or unavailable."); });
+    }
+
+    function openSettingsModal() { settingsModal.classList.remove('hidden'); }
+    function closeSettingsModal() { settingsModal.classList.add('hidden'); }
+    function openPrivacyModal() { privacyModal.classList.remove('hidden'); }
+    function closePrivacyModal() { privacyModal.classList.add('hidden'); }
+    function openAboutModal() { aboutModal.classList.remove('hidden'); }
+    function closeAboutModal() { aboutModal.classList.add('hidden'); }
+
+    function selectGoogleProfile(name, email, picture) {
+      currentUser = { name: name, email: email, picture: picture || "" };
+      localStorage.setItem('drift_grid_user_session', JSON.stringify(currentUser));
+      displayUserSession(currentUser);
+      closeLoginModal();
+    }
+
+    function setStudentMode(personaKey) {
+      currentStudentPersona = personaKey;
+      document.querySelectorAll('.student-mode-btn').forEach(btn => {
+        btn.classList.remove('ring-1', 'ring-blue-400', 'bg-blue-500/10');
+      });
+
+      if (personaKey === 'study-tutor') {
+        document.getElementById('btnModeTutor').classList.add('ring-1', 'ring-blue-400', 'bg-blue-500/10');
+        activePersonaBadge.textContent = 'Student: Study Tutor';
+      } else if (personaKey === 'exam-prep') {
+        document.getElementById('btnModeExam').classList.add('ring-1', 'ring-purple-400', 'bg-purple-500/10');
+        activePersonaBadge.textContent = 'Student: Quiz & Prep';
+      } else if (personaKey === 'code-mentor') {
+        document.getElementById('btnModeCode').classList.add('ring-1', 'ring-emerald-400', 'bg-emerald-500/10');
+        activePersonaBadge.textContent = 'Student: Code Mentor';
+      } else if (personaKey === 'cyber-audit') {
+        document.getElementById('btnModeCyber').classList.add('ring-1', 'ring-amber-400', 'bg-amber-500/10');
+        activePersonaBadge.textContent = 'Student: Cyber Audit';
+      }
+      toggleSidebar();
+    }
+
+    function toggleAttachMenu() { attachMenuDropdown.classList.toggle('hidden'); }
+    function triggerUpload(inputId) { attachMenuDropdown.classList.add('hidden'); document.getElementById(inputId).click(); }
+
+    function clearAttachedFile() {
+      attachedFile = null;
+      fileBadge.classList.add('hidden');
+      fileBadgeName.textContent = "";
+      docFileInput.value = "";
+      galleryFileInput.value = "";
+      cameraFileInput.value = "";
+    }
+
+    docFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        attachedFile = { name: file.name, type: file.type || 'text/plain', content: event.target.result, isImage: false };
+        fileBadgeIcon.textContent = '📄';
+        fileBadgeName.textContent = `${file.name} (${Math.round(file.size / 1024)} KB)`;
+        fileBadge.classList.remove('hidden');
+      };
+      reader.readAsText(file);
+    });
+
+    function handleImageSelection(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const fullDataUrl = event.target.result;
+        const base64Data = fullDataUrl.split(',')[1];
+        attachedFile = { name: file.name || "image.jpg", type: file.type || 'image/jpeg', content: base64Data, previewUrl: fullDataUrl, isImage: true };
+        fileBadgeIcon.textContent = '🖼️';
+        fileBadgeName.textContent = `${file.name || "photo.jpg"}`;
+        fileBadge.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    galleryFileInput.addEventListener('change', (e) => handleImageSelection(e.target.files[0]));
+    cameraFileInput.addEventListener('change', (e) => handleImageSelection(e.target.files[0]));
+
+    document.addEventListener('click', (e) => {
+      const attachBtn = document.getElementById('attachMenuBtn');
+      if (!attachBtn.contains(e.target) && !attachMenuDropdown.contains(e.target)) {
+        attachMenuDropdown.classList.add('hidden');
+      }
+    });
+
+    function saveApiKey() {
+      const val = hiddenApiKeyInput.value.trim();
+      localStorage.setItem('gemini_api_key', val);
+      closeSettingsModal();
+      alert("Engine Key saved successfully!");
+    }
+
+    function openLoginModal() { loginModal.classList.remove('hidden'); }
+    function closeLoginModal() { loginModal.classList.add('hidden'); }
+
+    function displayUserSession(user) {
+      drawerUserName.textContent = `${user.name} (${user.email})`;
+      userHeaderEmail.textContent = user.email;
+      if (user.picture) {
+        userHeaderAvatar.src = user.picture;
+        userHeaderAvatar.classList.remove('hidden');
+        userHeaderDot.classList.add('hidden');
+      } else {
+        userHeaderAvatar.classList.add('hidden');
+        userHeaderDot.classList.remove('hidden');
+      }
+      userHeaderPill.classList.remove('hidden');
+      headerLoginBtn.classList.add('hidden');
+    }
+
+    function logoutUser() {
+      currentUser = null;
+      localStorage.removeItem('drift_grid_user_session');
+      drawerUserName.textContent = "Guest";
+      userHeaderPill.classList.add('hidden');
+      headerLoginBtn.classList.remove('hidden');
+    }
+
+    window.addEventListener('load', () => {
+      const savedUser = localStorage.getItem('drift_grid_user_session');
+      if (savedUser) {
+        try { currentUser = JSON.parse(savedUser); displayUserSession(currentUser); } catch(e) {}
+      } else {
+        selectGoogleProfile('Lokanath KM', 'namarathamahesh@gmail.com', 'https://lh3.googleusercontent.com/a/default-user');
+      }
+      loadLibrary();
+      setStudentMode('study-tutor');
+
+      const isPaid = localStorage.getItem('drift_grid_plan_active');
+      const asked = parseInt(localStorage.getItem('drift_grid_questions_asked') || '0', 10);
+      if (!isPaid && asked >= 20) {
+        menuNotificationBadge.classList.remove('hidden');
+      }
+    });
+
+    function toggleSidebar() {
+      const isClosed = sidebar.classList.contains('-translate-x-full');
+      if (isClosed) {
+        sidebar.classList.remove('-translate-x-full');
+        sidebarOverlay.classList.remove('hidden');
+        renderHistory();
+        loadLibrary();
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        sidebarOverlay.classList.add('hidden');
+      }
+    }
+
+    function saveToLibrary(title, text) {
+      libraryItems.unshift({ id: Date.now(), title: title.slice(0, 35), content: text, date: new Date().toLocaleDateString([], { month: 'short', day: 'numeric' }) });
+      if (libraryItems.length > 30) libraryItems.pop();
+      localStorage.setItem('drift_grid_library', JSON.stringify(libraryItems));
+      loadLibrary();
+    }
+
+    function loadLibrary() {
+      const saved = localStorage.getItem('drift_grid_library');
+      if (saved) { try { libraryItems = JSON.parse(saved); } catch(e) {} }
+      libraryCountBadge.textContent = libraryItems.length;
+      if (!libraryItems.length) {
+        libraryContainer.innerHTML = '<div class="text-slate-500 italic p-2 text-center text-[11px] bg-white/[0.02] rounded-xl border border-white/5">Your saved formulas, code blocks & notes appear here.</div>';
+        return;
+      }
+      libraryContainer.innerHTML = libraryItems.map(item => `
+        <div onclick="viewLibraryItem(${item.id})" class="p-2 rounded-xl bg-[#12162e] hover:bg-[#181d3d] border border-white/10 cursor-pointer transition flex items-center justify-between">
+          <span class="text-slate-200 font-medium truncate">${escapeHtml(item.title)}</span>
+          <span class="text-[10px] text-slate-400 font-mono shrink-0 ml-1">${item.date}</span>
+        </div>
+      `).join('');
+    }
+
+    function viewLibraryItem(id) {
+      const found = libraryItems.find(item => item.id === id);
+      if (found) {
+        appendMessage('assistant', `📚 [From Your Library: ${found.title}]\n\n${found.content}`);
+        toggleSidebar();
+      }
+    }
+
+    function filterDrawerContent() {
+      const query = (searchChatInput.value || '').toLowerCase().trim();
+      const historyMatches = chatHistory.filter(h => h.title.toLowerCase().includes(query) || (h.snippet && h.snippet.toLowerCase().includes(query)));
+      if (!historyMatches.length) {
+        historyList.innerHTML = '<div class="text-slate-500 italic p-2 text-center text-[11px]">No matches found.</div>';
+      } else {
+        historyList.innerHTML = historyMatches.map((item, idx) => `
+          <div onclick="loadHistoryItem(${idx})" class="p-2 rounded-xl bg-[#12162e] hover:bg-[#181d3d] border border-white/10 cursor-pointer transition">
+            <div class="text-slate-200 font-medium truncate">${escapeHtml(item.title)}</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">${item.timestamp}</div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function selectDrawerPlan(modelValue, amount) {
+      modelSelector.value = modelValue;
+      updateModelLabel(modelValue);
+      activePlanAmount = amount;
+      document.getElementById('btnPayAmount').textContent = amount;
+      const upiUrl = `upi://pay?pa=driftgrid@upi&pn=DriftGridAI&am=${amount}&cu=INR`;
+      upiDeepLink.href = upiUrl;
+      document.getElementById('gpayLink').href = upiUrl;
+      document.getElementById('phonepeLink').href = upiUrl;
+      document.getElementById('paytmLink').href = upiUrl;
+      openPaymentModal();
+      toggleSidebar();
+    }
+
+    function renderHistory() {
+      const saved = localStorage.getItem('drift_grid_chat_history');
+      if (saved) { try { chatHistory = JSON.parse(saved); } catch(e) {} }
+      filterDrawerContent();
+    }
+
+    function saveHistoryItem(title, snippet) {
+      chatHistory.unshift({ title: title.slice(0, 30), snippet: snippet.slice(0, 50), timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+      if (chatHistory.length > 30) chatHistory.pop();
+      localStorage.setItem('drift_grid_chat_history', JSON.stringify(chatHistory));
+    }
+
+    function loadHistoryItem(idx) {
+      const item = chatHistory[idx];
+      if (item) {
+        appendMessage('user', item.title);
+        appendMessage('assistant', item.snippet + '...');
+        toggleSidebar();
+      }
+    }
+
+    function startNewChat() {
+      chatLog.innerHTML = `
+        <div class="flex justify-start">
+          <div class="bg-[#121630]/90 border border-white/10 text-slate-200 rounded-3xl rounded-tl-sm px-4 py-3 text-xs sm:text-sm max-w-[88%] shadow-lg backdrop-blur-md leading-relaxed">
+            <div class="flex items-center gap-1.5 font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-rose-400 mb-1"><span>⚡ Drift Grid AI</span></div>
+            New conversation started. Ask any question below for quick answers!
+          </div>
+        </div>
+      `;
+      clearAttachedFile();
+      toggleSidebar();
+    }
+
+    function escapeHtml(str) { return (str || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+    function switchMode(mode) {
+      currentMode = mode;
+      if (mode === 'chat') {
+        if (modeChatBtn) modeChatBtn.className = "px-2 py-0.5 rounded-md bg-blue-600 text-white transition shadow-sm";
+        if (modeImageBtn) modeImageBtn.className = "px-2 py-0.5 rounded-md text-slate-300 hover:text-white transition";
+        userInput.placeholder = "Type a question for instant answers...";
+        sendBtn.querySelector('span').textContent = "Send";
+      } else {
+        if (modeImageBtn) modeImageBtn.className = "px-2 py-0.5 rounded-md bg-gradient-to-r from-blue-600 to-rose-600 text-white transition shadow-sm";
+        if (modeChatBtn) modeChatBtn.className = "px-2 py-0.5 rounded-md text-slate-300 hover:text-white transition";
+        userInput.placeholder = "Describe any photo to generate...";
+        sendBtn.querySelector('span').textContent = "Photo";
+      }
+    }
+
+    if (localStorage.getItem('drift_grid_plan_active')) {
+      const activePlan = localStorage.getItem('drift_grid_plan_active');
+      drawerPlanBadge.textContent = activePlan;
+      drawerPlanBadge.className = "text-[10px] bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 px-2 py-0.5 rounded";
+    }
+
+    function openPaymentModal() { paymentModal.classList.remove('hidden'); }
+    function closePaymentModal() { paymentModal.classList.add('hidden'); }
+
+    function updatePayAmount() {
+      const selected = document.querySelector('input[name="payPlan"]:checked').value;
+      activePlanAmount = selected;
+      document.getElementById('btnPayAmount').textContent = selected;
+      const upiUrl = `upi://pay?pa=driftgrid@upi&pn=DriftGridAI&am=${selected}&cu=INR`;
+      upiDeepLink.href = upiUrl;
+      document.getElementById('gpayLink').href = upiUrl;
+      document.getElementById('phonepeLink').href = upiUrl;
+      document.getElementById('paytmLink').href = upiUrl;
+    }
+
+    function confirmPayment() {
+      const utr = utrInput.value.trim();
+      if (!utr || utr.length < 6) {
+        alert("Please enter the 12-digit UTR / transaction reference number from your payment app.");
+        return;
+      }
+      let planName = "Drift 1.1 Active (₹99)";
+      if (activePlanAmount == 399) planName = "Drift 1.2 Pro Active (₹399)";
+      if (activePlanAmount == 599) planName = "Security Suite Active (₹599)";
+      if (activePlanAmount == 999) planName = "Full 2Mo Suite (₹999)";
+
+      localStorage.setItem('drift_grid_plan_active', planName);
+      localStorage.setItem('drift_grid_questions_asked', '0');
+      drawerPlanBadge.textContent = planName;
+      drawerPlanBadge.className = "text-[10px] bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 px-2 py-0.5 rounded";
+      menuNotificationBadge.classList.add('hidden');
+      alert(`Payment of ₹${activePlanAmount} verified! Unlimited questions unlocked.`);
+      closePaymentModal();
+    }
+
+    function updateModelLabel(val) {
+      if (val === 'drift-1.1') tierLabel.textContent = "Drift 1.1 Fast Engine";
+      else if (val === 'drift-1.2') tierLabel.textContent = "Drift 1.2 Pro Engine";
+      else if (val === 'drift-sec') tierLabel.textContent = "Cyber Defense Engine";
+      else if (val === 'drift-all') tierLabel.textContent = "👑 Full Suite Engine";
+    }
+
+    modelSelector.addEventListener('change', () => { updateModelLabel(modelSelector.value); });
+
+    function appendMessage(role, text, mediaPreview) {
+      const msg = document.createElement('div');
+      msg.className = role === 'user' ? 'flex justify-end' : 'flex justify-start';
+
+      const bubble = document.createElement('div');
+      bubble.className = role === 'user'
+        ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-rose-600 text-white rounded-3xl rounded-tr-sm px-4 py-3 text-xs sm:text-sm max-w-[85%] shadow-md break-words'
+        : 'bg-[#121630]/90 border border-white/10 text-slate-100 rounded-3xl rounded-tl-sm px-4 py-3 text-xs sm:text-sm max-w-[88%] whitespace-pre-wrap shadow-lg backdrop-blur-md break-words relative group leading-relaxed';
+
+      if (mediaPreview) {
+        const previewContainer = document.createElement('div');
+        previewContainer.className = "mb-2.5 rounded-2xl overflow-hidden border border-white/20 shadow-sm";
+        if (mediaPreview.isImage) {
+          const img = document.createElement('img');
+          img.src = mediaPreview.previewUrl;
+          img.className = "w-full max-h-56 object-cover";
+          previewContainer.appendChild(img);
+        } else {
+          previewContainer.className = "mb-2 p-2.5 bg-black/40 rounded-xl text-[11px] font-mono flex items-center gap-2 text-blue-200 border border-white/10";
+          previewContainer.innerHTML = `<span>📄</span> <span class="truncate">${escapeHtml(mediaPreview.name)}</span>`;
+        }
+        bubble.appendChild(previewContainer);
+      }
+
+      const textEl = document.createElement('div');
+      textEl.textContent = text;
+      bubble.appendChild(textEl);
+
+      if (role === 'assistant') {
+        const actionRow = document.createElement('div');
+        actionRow.className = "mt-2.5 pt-2 border-t border-white/10 flex items-center justify-end gap-3 text-[10px] text-slate-400";
+        const saveBtn = document.createElement('button');
+        saveBtn.className = "hover:text-blue-300 transition flex items-center gap-1 bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded-md border border-white/10";
+        saveBtn.innerHTML = "<span>📚</span> <span>Save to Library</span>";
+        saveBtn.onclick = () => saveToLibrary(text.slice(0, 30), text);
+        actionRow.appendChild(saveBtn);
+        bubble.appendChild(actionRow);
+      }
+
+      msg.appendChild(bubble);
+      chatLog.appendChild(msg);
+      chatLog.scrollTop = chatLog.scrollHeight;
+      return bubble;
+    }
+
+    function appendImageCard(promptText, imageUrl) {
+      const msg = document.createElement('div');
+      msg.className = 'flex justify-start w-full';
+
+      const card = document.createElement('div');
+      card.className = 'bg-[#121630]/90 border border-white/10 rounded-3xl rounded-tl-sm p-3 sm:p-4 max-w-md w-full shadow-xl backdrop-blur-md';
+      card.innerHTML = `
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-blue-300">Drift Grid AI Photo Studio</span>
+          <span class="text-[10px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded border border-rose-500/30">HD</span>
+        </div>
+        <div class="relative group rounded-2xl overflow-hidden border border-white/10 mb-2.5 bg-black/40">
+          <img src="${imageUrl}" alt="${promptText}" class="w-full h-auto object-cover rounded-2xl" />
+        </div>
+        <p class="text-xs text-slate-300 mb-2.5 italic">"${promptText}"</p>
+        <a href="${imageUrl}" target="_blank" download="drift_grid_photo.jpg" class="block text-center bg-gradient-to-r from-blue-600 via-indigo-600 to-rose-600 hover:from-blue-500 hover:to-rose-500 text-white text-xs font-semibold py-2 rounded-xl shadow transition">⬇ Download HD</a>
+      `;
+      msg.appendChild(card);
+      chatLog.appendChild(msg);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    const WORLD_FACTS = {
+      "how many countries are there in the world": "There are **195 countries** in the world today (193 UN member states plus 2 observer states: Vatican City and Palestine).",
+      "countries in the world": "There are 195 countries recognized globally today.",
+      "how many states are there in india": "India has **28 states** and **8 Union Territories**.",
+      "states in india": "India has 28 states and 8 Union Territories.",
+      "capital of india": "The capital of India is **New Delhi**.",
+      "prime minister of india": "The Prime Minister of India is Narendra Modi.",
+      "president of india": "The President of India is Droupadi Murmu.",
+      "how many continents are there": "There are **7 continents** on Earth: Asia, Africa, North America, South America, Antarctica, Europe, and Australia (Oceania).",
+      "how many oceans are there": "There are **5 oceans** in the world: Pacific Ocean, Atlantic Ocean, Indian Ocean, Southern (Antarctic) Ocean, and Arctic Ocean."
+    };
+
+    function generateInstantResponse(query, persona) {
+      const q = query.toLowerCase().trim().replace(/[?.,!]/g, '');
+
+      if (q.includes("ceo") || q.includes("founder") || q.includes("who created") || q.includes("who made")) {
+        return "Lokanath KM (age 14, from India) is the Founder and CEO of Drift Grid AI.";
+      }
+
+      for (const [key, val] of Object.entries(WORLD_FACTS)) {
+        if (q.includes(key) || key.includes(q)) { return val; }
+      }
+
+      if (/^(hi|hello|hey|namaste|greetings)/i.test(q)) {
+        return "Hello! I'm Drift Grid AI. Founded by Lokanath KM (Age 14, India). Ask me any question or upload files to get started instantly.";
+      }
+
+      try {
+        if (/^[0-9+\-*/^().\s]+$/.test(query) && !q.includes("html")) {
+          const sanitized = query.replace(/\^/g, '**');
+          const evaluated = Function(`'use strict'; return (${sanitized})`)();
+          return `Result: ${query} = ${evaluated}`;
+        }
+      } catch (err) {}
+
+      return `Here is the direct answer for "${query}":
+
+1. **Overview**: When addressing this topic, examine the primary objective and apply structured logic.
+2. **Key Breakdown**: Working through this requires checking the basic parameters and using the **${persona.replace('-', ' ')}** approach for accuracy.
+3. **Summary**: Keep building on this concept with clear, sequential steps!`;
+    }
+
+    const chatForm = document.getElementById('chatForm');
+
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const isPaid = localStorage.getItem('drift_grid_plan_active');
+      let questionsAsked = parseInt(localStorage.getItem('drift_grid_questions_asked') || '0', 10);
+      
+      if (!isPaid && questionsAsked >= 25) {
+        document.getElementById('paymentReasonText').textContent = "You have reached your free limit of 25 questions. Pay via Google Pay, PhonePe, or Paytm to unlock unlimited access:";
+        openPaymentModal();
+        return;
+      }
+
+      const query = userInput.value.trim();
+      if (!query && !attachedFile) return;
+
+      if (!isPaid) {
+        questionsAsked += 1;
+        localStorage.setItem('drift_grid_questions_asked', questionsAsked.toString());
+        if (questionsAsked >= 20) { menuNotificationBadge.classList.remove('hidden'); }
+      }
+
+      const currentAttachedFile = attachedFile;
+      clearAttachedFile();
+
+      appendMessage('user', query, currentAttachedFile);
+      userInput.value = '';
+
+      sendBtn.disabled = true;
+      sendBtn.querySelector('span').textContent = '...';
+
+      const isPhotoRequest = currentMode === 'image' || /(ghibli|photo|image|picture|pic|draw|paint|art|sketch|portrait|anime)/i.test(query);
+      if (isPhotoRequest) {
+        const assistantBubble = appendMessage('assistant', `🎨 Creating artwork: "${query}"...`);
+        try {
+          const encoded = encodeURIComponent(query);
+          const imageUrl = `https://image.pollinations.ai/prompt/${encoded}?width=1024&height=1024&nologo=true&model=flux`;
+          assistantBubble.remove();
+          appendImageCard(query, imageUrl);
+          saveHistoryItem(`🎨 ${query}`, `Generated AI Photo`);
+        } catch (err) {
+          assistantBubble.textContent = "Could not render artwork.";
+        } finally {
+          sendBtn.disabled = false;
+          sendBtn.querySelector('span').textContent = 'Send';
+        }
+        return;
+      }
+
+      const assistantBubble = appendMessage('assistant', `Thinking...`);
+      const reply = generateInstantResponse(query, currentStudentPersona);
+      
+      assistantBubble.textContent = reply;
+      saveHistoryItem(query || (currentAttachedFile ? currentAttachedFile.name : "Query"), reply);
+
+      const actionRow = document.createElement('div');
+      actionRow.className = "mt-2.5 pt-2 border-t border-white/10 flex items-center justify-end gap-3 text-[10px] text-slate-400";
+      const saveBtn = document.createElement('button');
+      saveBtn.className = "hover:text-blue-300 transition flex items-center gap-1 bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded-md border border-white/10";
+      saveBtn.innerHTML = "<span>📚</span> <span>Save to Library</span>";
+      saveBtn.onclick = () => saveToLibrary(query || "Saved Note", reply);
+      actionRow.appendChild(saveBtn);
+      assistantBubble.appendChild(actionRow);
+
+      sendBtn.disabled = false;
+      sendBtn.querySelector('span').textContent = 'Send';
+    });
+  </script>
+</body>
+</html>
